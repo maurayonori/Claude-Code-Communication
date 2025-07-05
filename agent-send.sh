@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 🚀 Agent間メッセージ送信スクリプト
+# 🚀 TradeFlow Agent間メッセージ送信スクリプト
 
 # tmuxのbase-indexとpane-base-indexを動的に取得
 get_tmux_indices() {
@@ -15,11 +15,11 @@ get_tmux_indices() {
     echo "$window_index $pane_index"
 }
 
-# エージェント→tmuxターゲット マッピング
+# エージェント→tmuxターゲット マッピング (TradeFlow専門チーム対応)
 get_agent_target() {
     case "$1" in
         "president") echo "president" ;;
-        "boss1"|"worker1"|"worker2"|"worker3")
+        "tech_lead"|"analysis_engineer"|"trading_engineer"|"risk_engineer"|"data_engineer")
             # multiagentセッションのindexを動的に取得
             if tmux has-session -t multiagent 2>/dev/null; then
                 local indices=($(get_tmux_indices multiagent))
@@ -31,70 +31,84 @@ get_agent_target() {
 
                 # pane番号を計算
                 case "$1" in
-                    "boss1") echo "multiagent:$window_name.$((pane_index))" ;;
-                    "worker1") echo "multiagent:$window_name.$((pane_index + 1))" ;;
-                    "worker2") echo "multiagent:$window_name.$((pane_index + 2))" ;;
-                    "worker3") echo "multiagent:$window_name.$((pane_index + 3))" ;;
+                    "tech_lead") echo "multiagent:$window_name.$((pane_index))" ;;
+                    "analysis_engineer") echo "multiagent:$window_name.$((pane_index + 1))" ;;
+                    "trading_engineer") echo "multiagent:$window_name.$((pane_index + 2))" ;;
+                    "risk_engineer") echo "multiagent:$window_name.$((pane_index + 3))" ;;
+                    "data_engineer") echo "multiagent:$window_name.$((pane_index + 4))" ;;
                 esac
             else
                 echo ""
             fi
             ;;
+        # 後方互換性のために旧役割名も対応
+        "boss1") get_agent_target "tech_lead" ;;
+        "worker1") get_agent_target "analysis_engineer" ;;
+        "worker2") get_agent_target "trading_engineer" ;;
+        "worker3") get_agent_target "risk_engineer" ;;
         *) echo "" ;;
     esac
 }
 
 show_usage() {
     cat << EOF
-🤖 Agent間メッセージ送信
+🤖 TradeFlow Agent間メッセージ送信
 
 使用方法:
   $0 [エージェント名] [メッセージ]
   $0 --list
 
 利用可能エージェント:
-  president - プロジェクト統括責任者
-  boss1     - チームリーダー  
-  worker1   - 実行担当者A
-  worker2   - 実行担当者B
-  worker3   - 実行担当者C
+  president          - Product Owner / Project Manager
+  tech_lead          - Tech Lead / Architecture Lead
+  analysis_engineer  - 分析エンジン担当（4つの分析システム）
+  trading_engineer   - 取引システム担当（17ファイル取引システム）
+  risk_engineer      - リスク管理担当（需給リスク分析）
+  data_engineer      - データ処理担当（50並列データ取得）
 
 使用例:
-  $0 president "指示書に従って"
-  $0 boss1 "Hello World プロジェクト開始指示"
-  $0 worker1 "作業完了しました"
+  $0 president "あなたはpresidentです。指示書に従って"
+  $0 tech_lead "TradeFlow開発開始 - システム設計確認とTDD実践指導を開始"
+  $0 analysis_engineer "あなたはanalysis_engineerです。4つの分析システムTDD実装を開始"
+  $0 trading_engineer "あなたはtrading_engineerです。17ファイル取引システムTDD実装を開始"
 EOF
 }
 
 # エージェント一覧表示
 show_agents() {
-    echo "📋 利用可能なエージェント:"
-    echo "=========================="
+    echo "📋 TradeFlow専門チーム構成:"
+    echo "============================================"
 
     # presidentセッション確認
     if tmux has-session -t president 2>/dev/null; then
-        echo "  president → president       (プロジェクト統括責任者)"
+        echo "  president          → president           (Product Owner / Project Manager)"
     else
-        echo "  president → [未起動]        (プロジェクト統括責任者)"
+        echo "  president          → [未起動]            (Product Owner / Project Manager)"
     fi
 
     # multiagentセッション確認
     if tmux has-session -t multiagent 2>/dev/null; then
-        local boss1_target=$(get_agent_target "boss1")
-        local worker1_target=$(get_agent_target "worker1")
-        local worker2_target=$(get_agent_target "worker2")
-        local worker3_target=$(get_agent_target "worker3")
+        local tech_lead_target=$(get_agent_target "tech_lead")
+        local analysis_target=$(get_agent_target "analysis_engineer")
+        local trading_target=$(get_agent_target "trading_engineer")
+        local risk_target=$(get_agent_target "risk_engineer")
+        local data_target=$(get_agent_target "data_engineer")
 
-        echo "  boss1     → ${boss1_target:-[エラー]}  (チームリーダー)"
-        echo "  worker1   → ${worker1_target:-[エラー]}  (実行担当者A)"
-        echo "  worker2   → ${worker2_target:-[エラー]}  (実行担当者B)"
-        echo "  worker3   → ${worker3_target:-[エラー]}  (実行担当者C)"
+        echo "  tech_lead          → ${tech_lead_target:-[エラー]}      (Tech Lead / Architecture Lead)"
+        echo "  analysis_engineer  → ${analysis_target:-[エラー]}      (分析エンジン担当)"
+        echo "  trading_engineer   → ${trading_target:-[エラー]}      (取引システム担当)"
+        echo "  risk_engineer      → ${risk_target:-[エラー]}      (リスク管理担当)"
+        echo "  data_engineer      → ${data_target:-[エラー]}      (データ処理担当)"
     else
-        echo "  boss1     → [未起動]        (チームリーダー)"
-        echo "  worker1   → [未起動]        (実行担当者A)"
-        echo "  worker2   → [未起動]        (実行担当者B)"
-        echo "  worker3   → [未起動]        (実行担当者C)"
+        echo "  tech_lead          → [未起動]            (Tech Lead / Architecture Lead)"
+        echo "  analysis_engineer  → [未起動]            (分析エンジン担当)"
+        echo "  trading_engineer   → [未起動]            (取引システム担当)"
+        echo "  risk_engineer      → [未起動]            (リスク管理担当)"
+        echo "  data_engineer      → [未起動]            (データ処理担当)"
     fi
+    
+    echo ""
+    echo "💡 利益目標: 日次5,000円以上、勝率65%以上、プロフィットファクター1.5以上"
 }
 
 # ログ記録
