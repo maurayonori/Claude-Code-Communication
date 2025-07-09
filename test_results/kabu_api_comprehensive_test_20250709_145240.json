@@ -1,0 +1,165 @@
+{
+  "test_suite": "kabu_api_comprehensive",
+  "execution_time": {
+    "start": "2025-07-09T14:52:40.310011",
+    "end": "2025-07-09T14:52:40.316944",
+    "duration_seconds": 0.006933
+  },
+  "summary": {
+    "total_tests": 16,
+    "passed": 6,
+    "failed": 10,
+    "skipped": 0,
+    "success_rate": 0.375
+  },
+  "test_results": [
+    {
+      "name": "config_loading",
+      "success": false,
+      "execution_time_ms": 0.07557868957519531,
+      "error_message": "設定ファイルが見つかりません: config/config_simulation.json",
+      "additional_info": {}
+    },
+    {
+      "name": "client_initialization",
+      "success": true,
+      "execution_time_ms": 0.0629425048828125,
+      "error_message": null,
+      "additional_info": {
+        "client_created": true,
+        "trading_enabled": false,
+        "simulation_only": true
+      }
+    },
+    {
+      "name": "authentication",
+      "success": true,
+      "execution_time_ms": 0.0019073486328125,
+      "error_message": null,
+      "additional_info": {
+        "authentication_method_exists": true,
+        "initial_auth_state": false
+      }
+    },
+    {
+      "name": "basic_api_connectivity",
+      "success": true,
+      "execution_time_ms": 0.007867813110351562,
+      "error_message": null,
+      "additional_info": {
+        "api_methods_exist": true,
+        "safety_status": {
+          "safety_level": "simulation",
+          "trading_enabled": false,
+          "simulation_only": true,
+          "real_trading_allowed": false,
+          "emergency_stop_enabled": true,
+          "authenticated": false,
+          "token_valid": false,
+          "market_hours": true
+        }
+      }
+    },
+    {
+      "name": "data_provider_integration",
+      "success": false,
+      "execution_time_ms": 6.177663803100586,
+      "error_message": "cannot import name 'SimulationResultAnalyzer' from 'src.simulation.core.result_analyzer' (/Users/yono/Build/TradeFlow/src/simulation/core/result_analyzer.py)",
+      "additional_info": {}
+    },
+    {
+      "name": "order_engine_integration",
+      "success": false,
+      "execution_time_ms": 0.0016689300537109375,
+      "error_message": "データプロバイダー未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "integration_manager",
+      "success": false,
+      "execution_time_ms": 0.47206878662109375,
+      "error_message": "'base_url'",
+      "additional_info": {}
+    },
+    {
+      "name": "data_retrieval_functions",
+      "success": false,
+      "execution_time_ms": 0.0019073486328125,
+      "error_message": "データプロバイダー未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "order_functions",
+      "success": false,
+      "execution_time_ms": 0.00095367431640625,
+      "error_message": "注文エンジン未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "error_handling",
+      "success": false,
+      "execution_time_ms": 0.00095367431640625,
+      "error_message": "注文エンジン未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "response_times",
+      "success": false,
+      "execution_time_ms": 0.00095367431640625,
+      "error_message": "データプロバイダー未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "parallel_processing",
+      "success": false,
+      "execution_time_ms": 0.00095367431640625,
+      "error_message": "データプロバイダー未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "resource_usage",
+      "success": false,
+      "execution_time_ms": 0.00095367431640625,
+      "error_message": "データプロバイダー未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "security_levels",
+      "success": true,
+      "execution_time_ms": 0.06413459777832031,
+      "error_message": null,
+      "additional_info": {
+        "simulation_trading_disabled": true,
+        "simulation_only_mode": true,
+        "security_validation": true
+      }
+    },
+    {
+      "name": "trading_limits",
+      "success": true,
+      "execution_time_ms": 0.0011920928955078125,
+      "error_message": "注文エンジン未初期化",
+      "additional_info": {}
+    },
+    {
+      "name": "emergency_stop",
+      "success": true,
+      "execution_time_ms": 0.006198883056640625,
+      "error_message": null,
+      "additional_info": {
+        "emergency_stop_feature_available": true,
+        "emergency_stop_enabled": true,
+        "safety_status": {
+          "safety_level": "simulation",
+          "trading_enabled": false,
+          "simulation_only": true,
+          "real_trading_allowed": false,
+          "emergency_stop_enabled": true,
+          "authenticated": false,
+          "token_valid": false,
+          "market_hours": true
+        }
+      }
+    }
+  ]
+}

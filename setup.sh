@@ -187,3 +187,71 @@ echo "  4. 🎯 デモ実行: PRESIDENTに「あなたはpresidentです。指�
 echo ""
 echo "💡 利益目標: 日次5,000円以上、勝率65%以上、プロフィットファクター1.5以上"
 
+# 絶対パス指定
+PROJECT_ROOT="/Users/yono/Build/TradeFlow"
+
+# ログディレクトリを作成
+mkdir -p ~/ObsidianVault/claude_logs
+
+CLAUDE_CMDS=(
+    "cd $PROJECT_ROOT && export PS1='(tech_lead) \w\$ ' && claude --dangerously-skip-permissions | tee ~/ObsidianVault/claude_logs/tech_lead_$(date +%F_%H-%M).md"
+    "cd $PROJECT_ROOT && export PS1='(analysis_engineer) \w\$ ' && claude --dangerously-skip-permissions | tee ~/ObsidianVault/claude_logs/analysis_$(date +%F_%H-%M).md"
+    "cd $PROJECT_ROOT && export PS1='(trading_engineer) \w\$ ' && claude --dangerously-skip-permissions | tee ~/ObsidianVault/claude_logs/trading_$(date +%F_%H-%M).md"
+    "cd $PROJECT_ROOT && export PS1='(risk_engineer) \w\$ ' && claude --dangerously-skip-permissions | tee ~/ObsidianVault/claude_logs/risk_$(date +%F_%H-%M).md"
+    "cd $PROJECT_ROOT && export PS1='(data_engineer) \w\$ ' && claude --dangerously-skip-permissions | tee ~/ObsidianVault/claude_logs/data_$(date +%F_%H-%M).md"
+)
+sleep 1
+for i in {0..4}; do
+    PANE_ID="${PANE_IDS[$i]}"
+    case $i in
+        0)
+            ROLE="tech_lead" ;;
+        1)
+            ROLE="analysis_engineer" ;;
+        2)
+            ROLE="trading_engineer" ;;
+        3)
+            ROLE="risk_engineer" ;;
+        4)
+            ROLE="data_engineer" ;;
+    esac
+    tmux send-keys -t "$PANE_ID" "pwd" C-m
+    tmux send-keys -t "$PANE_ID" "which claude" C-m
+    tmux send-keys -t "$PANE_ID" "ls -la" C-m
+    sleep 1
+    echo "[DEBUG] Sending to $PANE_ID: cd $PROJECT_ROOT"
+    tmux send-keys -t "$PANE_ID" "cd $PROJECT_ROOT" C-m
+    sleep 5
+    echo "[DEBUG] Sending to $PANE_ID: export PS1='($ROLE) \\w\\$ '"
+    tmux send-keys -t "$PANE_ID" "export PS1='($ROLE) \\w\\$ '" C-m
+    sleep 5
+    # Claudeをインタラクティブモードで起動（ログ記録付き）
+    CLAUDE_CMD="claude --dangerously-skip-permissions 2>&1 | tee ~/ObsidianVault/claude_logs/${ROLE}_$(date +%F_%H-%M).md"
+    echo "[DEBUG] Sending to $PANE_ID: $CLAUDE_CMD"
+    tmux send-keys -t "$PANE_ID" "$CLAUDE_CMD" C-m
+    sleep 5
+    if tmux list-panes -a | grep -q "$PANE_ID"; then
+        tmux capture-pane -t "$PANE_ID" -pS -20 > "./tmp/pane_${i}_last20.txt" 2>/dev/null || echo "[DEBUG] capture-pane failed for $PANE_ID"
+        echo "[DEBUG] Last 20 lines of $PANE_ID:"
+        tail -n 20 "./tmp/pane_${i}_last20.txt"
+    else
+        echo "[DEBUG] $PANE_ID is not alive, skipping capture-pane."
+    fi
+done
+
+# presidentペイン
+sleep 5
+# Claudeをインタラクティブモードで起動（ログ記録付き）
+PRESIDENT_CMD="claude --dangerously-skip-permissions 2>&1 | tee ~/ObsidianVault/claude_logs/president_$(date +%F_%H-%M).md"
+echo "[DEBUG] Sending to president:0.0: cd $PROJECT_ROOT"
+tmux send-keys -t president:0.0 "cd $PROJECT_ROOT" C-m
+sleep 5
+echo "[DEBUG] Sending to president:0.0: export PS1='(PRESIDENT) \\w\\$ '"
+tmux send-keys -t president:0.0 "export PS1='(PRESIDENT) \\w\\$ '" C-m
+sleep 5
+echo "[DEBUG] Sending to president:0.0: $PRESIDENT_CMD"
+tmux send-keys -t president:0.0 "$PRESIDENT_CMD" C-m
+sleep 5
+tmux capture-pane -t president:0.0 -pS -20 > "./tmp/pane_president_last20.txt"
+echo "[DEBUG] Last 20 lines of president:0.0:"
+tail -n 20 "./tmp/pane_president_last20.txt"

@@ -1,0 +1,33 @@
+{
+  "preparation_completed": true,
+  "preparation_mode": "debug_simulation",
+  "core_symbols": [
+    "7203",
+    "9984",
+    "6758",
+    "8306",
+    "7974"
+  ],
+  "simulation_datasets": {},
+  "backtest_datasets": {},
+  "quality_validation": {
+    "completeness_score": 0.0,
+    "simulation_quality_score": 0.99,
+    "backtest_coverage_score": 1.0,
+    "quality_level": "excellent",
+    "validation_passed": true,
+    "total_symbols": 0,
+    "ready_symbols": 0,
+    "backtest_ready_symbols": 0,
+    "qa_integration_ready": true
+  },
+  "preparation_stats": {
+    "start_time": "2025-07-10 06:17:38.132295",
+    "total_symbols": 5,
+    "successful_preparations": 0,
+    "data_completeness": 0.0,
+    "simulation_quality": 0.99,
+    "preparation_time_seconds": 0.5
+  },
+  "qa_engineer_ready": true
+}

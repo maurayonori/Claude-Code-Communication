@@ -18,30 +18,13 @@ get_tmux_indices() {
 # エージェント→tmuxターゲット マッピング (TradeFlow専門チーム対応)
 get_agent_target() {
     case "$1" in
-        "president") echo "president" ;;
-        "tech_lead"|"analysis_engineer"|"trading_engineer"|"risk_engineer"|"data_engineer")
-            # multiagentセッションのindexを動的に取得
-            if tmux has-session -t multiagent 2>/dev/null; then
-                local indices=($(get_tmux_indices multiagent))
-                local window_index=${indices[0]}
-                local pane_index=${indices[1]}
-
-                # window名で取得（base-indexに依存しない）
-                local window_name="agents"
-
-                # pane番号を計算
-                case "$1" in
-                    "tech_lead") echo "multiagent:$window_name.$((pane_index))" ;;
-                    "analysis_engineer") echo "multiagent:$window_name.$((pane_index + 1))" ;;
-                    "trading_engineer") echo "multiagent:$window_name.$((pane_index + 2))" ;;
-                    "risk_engineer") echo "multiagent:$window_name.$((pane_index + 3))" ;;
-                    "data_engineer") echo "multiagent:$window_name.$((pane_index + 4))" ;;
-                esac
-            else
-                echo ""
-            fi
-            ;;
-        # 後方互換性のために旧役割名も対応
+        "president") echo "president:0.0" ;;
+        "tech_lead") echo "multiagent:0.0" ;;
+        "analysis_engineer") echo "multiagent:0.1" ;;
+        "trading_engineer") echo "multiagent:0.2" ;;
+        "risk_engineer") echo "multiagent:0.3" ;;
+        "data_engineer") echo "multiagent:0.4" ;;
+        "qa_engineer") echo "multiagent:0.5" ;;
         "boss1") get_agent_target "tech_lead" ;;
         "worker1") get_agent_target "analysis_engineer" ;;
         "worker2") get_agent_target "trading_engineer" ;;

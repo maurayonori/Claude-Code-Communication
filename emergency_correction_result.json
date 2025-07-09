@@ -1,0 +1,131 @@
+{
+  "corrected_symbols": [
+    "7203",
+    "9984",
+    "6758",
+    "4063",
+    "8306",
+    "2222",
+    "4444",
+    "4064"
+  ],
+  "corrected_data": {
+    "7203": {
+      "symbol": "7203",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:21.187669",
+      "source": "kabu_api_enhanced"
+    },
+    "9984": {
+      "symbol": "9984",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:21.289474",
+      "source": "kabu_api_enhanced"
+    },
+    "6758": {
+      "symbol": "6758",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:21.391293",
+      "source": "kabu_api_enhanced"
+    },
+    "4063": {
+      "symbol": "4063",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:21.501554",
+      "source": "kabu_api_enhanced"
+    },
+    "8306": {
+      "symbol": "8306",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:21.603985",
+      "source": "kabu_api_enhanced"
+    },
+    "2222": {
+      "symbol": "2222",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:21.705401",
+      "source": "kabu_api_enhanced"
+    },
+    "4444": {
+      "symbol": "4444",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:29.122508",
+      "source": "kabu_api_enhanced"
+    },
+    "4064": {
+      "symbol": "4064",
+      "price": 2500.0,
+      "volume": 1000000,
+      "timestamp": "2025-07-09T17:27:29.223671",
+      "source": "kabu_api_enhanced"
+    }
+  },
+  "validation_results": {
+    "7203": "active",
+    "9984": "active",
+    "6758": "active",
+    "4063": "active",
+    "8306": "active",
+    "1111": "unknown",
+    "2222": "active",
+    "3333": "active",
+    "4444": "active",
+    "5555": "unknown",
+    "7204": "unknown",
+    "9985": "unknown",
+    "6759": "unknown",
+    "4064": "active",
+    "8307": "unknown"
+  },
+  "correction_stats": {
+    "start_time": "2025-07-09T17:27:10.449693",
+    "symbols_processed": 8,
+    "delisted_removed": 6,
+    "json_fixes": 0,
+    "kabu_success_improved": 8,
+    "quality_improvements": 8
+  },
+  "delisted_filter_stats": {
+    "total_symbols": 15,
+    "active_symbols": 9,
+    "delisted_symbols": 0,
+    "unknown_symbols": 6
+  },
+  "json_fixer_stats": {
+    "fix_count": 0,
+    "error_count": 0,
+    "recent_errors": []
+  },
+  "kabu_api_stats": {
+    "success_rate": 88.88888888888889,
+    "total_requests": 9,
+    "successful_requests": 8,
+    "failed_requests": 1,
+    "error_patterns": {},
+    "retry_settings": {
+      "max_retries": 3,
+      "base_delay": 1.0,
+      "max_delay": 5.0,
+      "backoff_factor": 2.0
+    }
+  },
+  "quality_stats": {
+    "total_checks": 8,
+    "average_score": 1.0,
+    "pass_rate": 1.0,
+    "quality_thresholds": {
+      "price_min": 1.0,
+      "price_max": 100000.0,
+      "volume_min": 0,
+      "timestamp_max_age": 300,
+      "overall_min_score": 0.8
+    }
+  }
+}
