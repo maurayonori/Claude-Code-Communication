@@ -1,165 +1,286 @@
-# 🤖 Tmux Multi-Agent Communication Demo
+# ClaudeCodeCommunication
 
-Agent同士がやり取りするtmux環境のデモシステム
+## 概要
+ClaudeCodeCommunicationは、Claudeとの効率的なコード通信を実現するためのツールセットです。
 
-**📖 Read this in other languages:** [English](README-en.md)
+## 🚀 理想的な日常運用（推奨）
 
-## 🎯 デモ概要
+### 🎯 設計思想
+1. **PC負荷軽減**: 自動負荷監視とクリーンアップ
+2. **タスク細分化**: 大きなタスクを小さな単位に分割
+3. **自動再起動**: 作業完了後の自動クリーンアップ＆再起動
+4. **Obsidian最適化**: ログローテーションと圧縮記録
+5. **セッション管理**: President + MultiAgent の2セッション構成
 
-PRESIDENT → BOSS → Workers の階層型指示システムを体感できます
+### 📋 毎日の運用手順
 
-### 👥 エージェント構成
-
-```
-📊 PRESIDENT セッション (1ペイン)
-└── PRESIDENT: プロジェクト統括責任者
-
-📊 multiagent セッション (4ペイン)  
-├── boss1: チームリーダー
-├── worker1: 実行担当者A
-├── worker2: 実行担当者B
-└── worker3: 実行担当者C
-```
-
-## 🚀 クイックスタート
-
-### 0. リポジトリのクローン
-
+#### 1. 初回セットアップ（一度だけ実行）
 ```bash
-git clone https://github.com/nishimoto265/Claude-Code-Communication.git
-cd Claude-Code-Communication
+# エイリアス設定
+./scripts/Claude-Code-Communication/setup-daily-aliases.sh
+source ~/.zshrc
 ```
 
-### 1. tmux環境構築
-
-⚠️ **注意**: 既存の `multiagent` と `president` セッションがある場合は自動的に削除されます。
-
+#### 2. 日常運用開始
 ```bash
-./setup.sh
+# 毎日の作業開始
+tf-daily
 ```
 
-### 2. セッションアタッチ
+**自動実行される処理:**
+- システム負荷チェック（CPU70%以上で軽量モード）
+- 既存セッションクリーンアップ
+- President + MultiAgent セッション作成
+- Claude起動（全エンジニア）
+- Alacritty起動（President画面メイン）
+- タスク状態初期化
+- 自動再起動システム設定
 
+#### 3. 作業実行
 ```bash
-# マルチエージェント確認
-tmux attach-session -t multiagent
+# President画面で指令を出す
+# 例: "RSI計算の精度を向上させてください"
 
-# プレジデント確認（別ターミナルで）
-tmux attach-session -t president
+# 必要に応じてMultiAgent画面を監視
+tf-attach-multiagent
 ```
 
-### 3. Claude Code起動
-
-**手順1: President認証**
+#### 4. 進捗管理
 ```bash
-# まずPRESIDENTで認証を実施
-tmux send-keys -t president 'claude' C-m
-```
-認証プロンプトに従って許可を与えてください。
+# 進捗更新
+tf-progress 25   # 25%完了
+tf-progress 50   # 50%完了
+tf-progress 100  # 完了（自動再起動トリガー）
 
-**手順2: Multiagent一括起動**
+# 状態確認
+tf-status
+```
+
+#### 5. 自動再起動
+タスクが100%完了すると、5秒後に自動的に：
+- 現在のセッションを終了
+- 新しいサイクルを開始
+- 新しいPresident画面が表示
+
+### 🎮 便利コマンド
+
+#### 基本コマンド
 ```bash
-# 認証完了後、multiagentセッションを一括起動
-for i in {0..3}; do tmux send-keys -t multiagent:0.$i 'claude' C-m; done
+tf-daily           # 日常運用開始
+tf-status          # タスク状態確認
+tf-progress <数値> # 進捗更新（0-100）
+tf-restart         # 手動再起動
+tf-load            # システム負荷確認
+tf-logs            # 最新ログ確認
 ```
 
-### 4. デモ実行
-
-PRESIDENTセッションで直接入力：
-```
-あなたはpresidentです。指示書に従って
-```
-
-## 📜 指示書について
-
-各エージェントの役割別指示書：
-- **PRESIDENT**: `instructions/president.md`
-- **boss1**: `instructions/boss.md` 
-- **worker1,2,3**: `instructions/worker.md`
-
-**Claude Code参照**: `CLAUDE.md` でシステム構造を確認
-
-**要点:**
-- **PRESIDENT**: 「あなたはpresidentです。指示書に従って」→ boss1に指示送信
-- **boss1**: PRESIDENT指示受信 → workers全員に指示 → 完了報告
-- **workers**: Hello World実行 → 完了ファイル作成 → 最後の人が報告
-
-## 🎬 期待される動作フロー
-
-```
-1. PRESIDENT → boss1: "あなたはboss1です。Hello World プロジェクト開始指示"
-2. boss1 → workers: "あなたはworker[1-3]です。Hello World 作業開始"  
-3. workers → ./tmp/ファイル作成 → 最後のworker → boss1: "全員作業完了しました"
-4. boss1 → PRESIDENT: "全員完了しました"
-```
-
-## 🔧 手動操作
-
-### agent-send.shを使った送信
-
+#### セッション管理
 ```bash
-# 基本送信
-./agent-send.sh [エージェント名] [メッセージ]
-
-# 例
-./agent-send.sh boss1 "緊急タスクです"
-./agent-send.sh worker1 "作業完了しました"
-./agent-send.sh president "最終報告です"
-
-# エージェント一覧確認
-./agent-send.sh --list
+tf-attach-president    # President画面に接続
+tf-attach-multiagent   # MultiAgent画面に接続
+tf-kill-all           # 全セッション終了
 ```
 
-## 🧪 確認・デバッグ
+### 📊 セッション構成
 
-### ログ確認
-
-```bash
-# 送信ログ確認
-cat logs/send_log.txt
-
-# 特定エージェントのログ
-grep "boss1" logs/send_log.txt
-
-# 完了ファイル確認
-ls -la ./tmp/worker*_done.txt
+#### President セッション
+```
+┌─────────────────────────────────────┐
+│                                     │
+│            PRESIDENT                │
+│         (メイン指令画面)              │
+│                                     │
+└─────────────────────────────────────┘
 ```
 
-### セッション状態確認
-
-```bash
-# セッション一覧
-tmux list-sessions
-
-# ペイン一覧
-tmux list-panes -t multiagent
-tmux list-panes -t president
+#### MultiAgent セッション（監視用）
+```
+┌─────────────┬─────────────┬─────────────┐
+│ ANALYSIS    │ DATA        │ TRADING     │
+│ ENGINEER    │ ENGINEER    │ ENGINEER    │
+├─────────────┼─────────────┼─────────────┤
+│ RISK        │ TECH        │ MONITORING  │
+│ ENGINEER    │ LEAD        │             │
+└─────────────┴─────────────┴─────────────┘
 ```
 
-## 🔄 環境リセット
+### 🔄 自動再起動システム
 
+#### 仕組み
+1. **タスク完了検出**: 進捗が100%になると自動検出
+2. **待機時間**: 5秒間の確認時間
+3. **クリーンアップ**: 現在のセッションを安全に終了
+4. **新サイクル開始**: 新しいPresident画面で再開
+
+#### 手動再起動
 ```bash
-# セッション削除
-tmux kill-session -t multiagent
-tmux kill-session -t president
+# 緊急時の手動再起動
+tf-restart
 
-# 完了ファイル削除
-rm -f ./tmp/worker*_done.txt
+# 完全リセット
+tf-kill-all
+tf-daily
+```
 
-# 再構築（自動クリア付き）
-./setup.sh
+### 📝 ログ管理
+
+#### Obsidianログ
+- **保存場所**: `~/ObsidianVault/claude_logs/`
+- **ローテーション**: 7日以上古いログを自動削除
+- **形式**: Markdown形式で圧縮記録
+
+#### ログ確認
+```bash
+# 最新ログ確認
+tf-logs
+
+# 特定のログ確認
+ls -la ~/ObsidianVault/claude_logs/
+```
+
+### 🔧 トラブルシューティング
+
+#### よくある問題
+
+1. **Alacrittyが起動しない**
+   ```bash
+   # 既存セッションを終了
+   tf-kill-all
+   
+   # 再起動
+   tf-daily
+   ```
+
+2. **PC負荷が高い**
+   ```bash
+   # 負荷確認
+   tf-load
+   
+   # 軽量モードで再起動
+   tf-kill-all
+   tf-daily  # 自動的に軽量モードが適用される
+   ```
+
+3. **タスクが途中で止まった**
+   ```bash
+   # 現在の状態確認
+   tf-status
+   
+   # 手動で進捗更新
+   tf-progress 100
+   
+   # 自動再起動
+   tf-restart
+   ```
+
+4. **セッションが見つからない**
+   ```bash
+   # セッション一覧確認
+   tmux list-sessions
+   
+   # 手動でセッション作成
+   tf-daily
+   ```
+
+### 💡 運用のコツ
+
+#### 効率的な使い方
+1. **朝の起動**: `tf-daily`で一日の作業開始
+2. **指令の出し方**: President画面で具体的な指示
+3. **監視**: 必要に応じてMultiAgent画面で進捗確認
+4. **進捗更新**: 25%、50%、75%、100%で段階的に更新
+5. **自動再起動**: 100%完了後は自動的に次のサイクル
+
+#### タスク細分化
+- 大きなタスクは小さな単位に分割
+- 各サブタスクは1-2時間で完了可能なサイズ
+- 進捗を定期的に更新してチェックポイント作成
+
+#### PC負荷軽減
+- CPU使用率70%以上で自動的に軽量モード
+- 不要なログは自動削除
+- セッションの適切なクリーンアップ
+
+### 🎯 期待される効果
+
+#### ユーザーの手間軽減
+- **起動**: 1コマンド（`tf-daily`）で全環境構築
+- **監視**: President画面で報告待ち
+- **再起動**: 自動的にクリーンアップ＆再開
+- **進捗管理**: 簡単な数値更新のみ
+
+#### PC負荷軽減
+- **自動負荷監視**: 高負荷時の軽量モード切り替え
+- **ログ管理**: 古いログの自動削除
+- **プロセス管理**: 適切なクリーンアップ
+- **メモリ最適化**: 不要なプロセスの終了
+
+#### 作業継続性
+- **タスク状態管理**: JSON形式での永続化
+- **チェックポイント**: 進捗に応じた復旧ポイント
+- **ログ記録**: Obsidianでの詳細記録
+- **自動再開**: 中断後の自動復旧
+
+## 🔧 従来の手動運用（非推奨）
+
+<details>
+<summary>従来の手動運用方法（クリックで展開）</summary>
+
+### 軽量最適化版（手動）
+- `tf-light-start`: 軽量Alacrittyウィンドウ起動
+- `tf-light-claude`: 軽量Claude起動
+- `tf-light-switch`: エンジニア切り替え
+
+### マルチエージェント接続（手動）
+- `tmux attach -t president`: President接続
+- `tmux attach -t multiagent`: MultiAgent接続
+
+</details>
+
+---
+
+## 📚 技術仕様
+
+### 対応環境
+- **OS**: macOS (Darwin)
+- **ターミナル**: Alacritty（推奨）
+- **セッション管理**: tmux
+- **ログ管理**: Obsidian
+
+### 依存関係
+- tmux
+- jq
+- bc
+- Alacritty
+- Claude CLI
+
+### ファイル構成
+```
+scripts/Claude-Code-Communication/
+├── optimized-daily-workflow.sh    # メイン運用スクリプト
+├── setup-daily-aliases.sh         # エイリアス設定
+├── auto-restart-cycle.sh          # 自動再起動
+├── lightweight-update-progress.sh # 進捗更新
+├── .task_state.json               # タスク状態管理
+└── README.md                      # このファイル
 ```
 
 ---
 
-## 📄 ライセンス
+## 🎉 まとめ
 
-このプロジェクトは[MIT License](LICENSE)の下で公開されています。
+この日常運用システムにより：
 
-## 🤝 コントリビューション
+1. **毎日の作業開始**: `tf-daily`コマンド1つで完全な環境構築
+2. **効率的な作業**: President画面での指令出し、MultiAgent監視
+3. **自動管理**: 進捗に応じた自動再起動とクリーンアップ
+4. **負荷軽減**: システム負荷に応じた自動最適化
+5. **継続性**: タスク状態管理とログ記録による作業継続
 
-プルリクエストやIssueでのコントリビューションを歓迎いたします！
+**理想的な1日の流れ:**
+1. 朝: `tf-daily`で環境起動
+2. 作業: President画面で指令、進捗更新
+3. 完了: 自動再起動で次のサイクル開始
+4. 繰り返し: 必要に応じて複数サイクル実行
 
----
-
-🚀 **Agent Communication を体感してください！** 🤖✨ 
+これにより、手間を最小限に抑えながら、PC負荷を軽減し、効率的な開発サイクルを実現できます。 

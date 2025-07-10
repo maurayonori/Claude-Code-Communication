@@ -1,0 +1,22 @@
+{
+  "current_session": {
+    "id": "20250710_072947",
+    "start_time": "2025-07-09T22:29:47.3NZ",
+    "active_engineer": "president",
+    "current_task": "daily_startup",
+    "progress": 0,
+    "lightweight_mode": false
+  },
+  "tasks": [],
+  "checkpoints": [],
+  "issue_tracker": {
+    "enabled": true,
+    "auto_create": true,
+    "auto_update": true
+  },
+  "daily_cycle": {
+    "cycle_count": 1,
+    "last_restart": "2025-07-09T22:29:47.3NZ",
+    "auto_restart_enabled": true
+  }
+}
