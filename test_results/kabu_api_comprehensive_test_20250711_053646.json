@@ -1,0 +1,272 @@
+{
+  "test_suite": "kabu_api_comprehensive",
+  "execution_time": {
+    "start": "2025-07-11T05:36:46.413925",
+    "end": "2025-07-11T05:36:46.421383",
+    "duration_seconds": 0.007458
+  },
+  "summary": {
+    "total_tests": 16,
+    "passed": 11,
+    "failed": 5,
+    "skipped": 0,
+    "success_rate": 0.6875
+  },
+  "test_results": [
+    {
+      "name": "config_loading",
+      "success": false,
+      "execution_time_ms": 0.1442432403564453,
+      "error_message": "設定ファイルが見つかりません: config/config_simulation.json",
+      "additional_info": {}
+    },
+    {
+      "name": "client_initialization",
+      "success": true,
+      "execution_time_ms": 0.06341934204101562,
+      "error_message": null,
+      "additional_info": {
+        "client_created": true,
+        "trading_enabled": false,
+        "simulation_only": true
+      }
+    },
+    {
+      "name": "authentication",
+      "success": true,
+      "execution_time_ms": 0.0019073486328125,
+      "error_message": null,
+      "additional_info": {
+        "authentication_method_exists": true,
+        "initial_auth_state": false
+      }
+    },
+    {
+      "name": "basic_api_connectivity",
+      "success": true,
+      "execution_time_ms": 0.007867813110351562,
+      "error_message": null,
+      "additional_info": {
+        "api_methods_exist": true,
+        "safety_status": {
+          "safety_level": "simulation",
+          "trading_enabled": false,
+          "simulation_only": true,
+          "real_trading_allowed": false,
+          "emergency_stop_enabled": true,
+          "authenticated": false,
+          "token_valid": false,
+          "market_hours": false
+        }
+      }
+    },
+    {
+      "name": "data_provider_integration",
+      "success": true,
+      "execution_time_ms": 2.7589797973632812,
+      "error_message": null,
+      "additional_info": {
+        "initialized": false,
+        "health_status": {
+          "yahoo_api": "unhealthy",
+          "kabu_api": "unhealthy",
+          "overall_status": "unhealthy",
+          "data_source_mode": "hybrid",
+          "performance": {
+            "requests_total": 0,
+            "requests_kabu": 0,
+            "requests_yahoo": 0,
+            "cache_hits": 0,
+            "errors": 0,
+            "avg_latency_ms": 0.0,
+            "cache_stats": {
+              "size": 0,
+              "hits": 0,
+              "misses": 0,
+              "hit_rate": 0.0
+            },
+            "data_source_mode": "hybrid",
+            "kabu_integration_available": false,
+            "market_hours": false
+          }
+        }
+      }
+    },
+    {
+      "name": "order_engine_integration",
+      "success": true,
+      "execution_time_ms": 0.8761882781982422,
+      "error_message": null,
+      "additional_info": {
+        "initialized": true,
+        "execution_stats": {
+          "total_orders": 0,
+          "successful_orders": 0,
+          "failed_orders": 0,
+          "simulation_orders": 0,
+          "avg_execution_time_ms": 0.0,
+          "avg_slippage_pct": 0.0,
+          "execution_mode": "simulation",
+          "validation_level": "basic",
+          "active_orders": 0,
+          "success_rate": 0.0
+        }
+      }
+    },
+    {
+      "name": "integration_manager",
+      "success": false,
+      "execution_time_ms": 0.9670257568359375,
+      "error_message": "'base_url'",
+      "additional_info": {}
+    },
+    {
+      "name": "data_retrieval_functions",
+      "success": true,
+      "execution_time_ms": 0.22912025451660156,
+      "error_message": null,
+      "additional_info": {
+        "data_available": false,
+        "performance_stats": {
+          "requests_total": 1,
+          "requests_kabu": 0,
+          "requests_yahoo": 1,
+          "cache_hits": 0,
+          "errors": 0,
+          "avg_latency_ms": 0.20384788513183594,
+          "cache_stats": {
+            "size": 0,
+            "hits": 0,
+            "misses": 1,
+            "hit_rate": 0.0
+          },
+          "data_source_mode": "hybrid",
+          "kabu_integration_available": false,
+          "market_hours": false
+        },
+        "test_symbol": "7203"
+      }
+    },
+    {
+      "name": "order_functions",
+      "success": true,
+      "execution_time_ms": 0.6279945373535156,
+      "error_message": null,
+      "additional_info": {
+        "quote_available": false,
+        "simulation_execution_success": false,
+        "execution_result": {
+          "success": false,
+          "error_message": "市場データ取得失敗"
+        }
+      }
+    },
+    {
+      "name": "error_handling",
+      "success": false,
+      "execution_time_ms": 0.029087066650390625,
+      "error_message": "数量は100の倍数である必要があります（単元株制度）",
+      "additional_info": {}
+    },
+    {
+      "name": "response_times",
+      "success": true,
+      "execution_time_ms": 0.4858970642089844,
+      "error_message": null,
+      "additional_info": {
+        "average_response_time_ms": 0.1579920450846354,
+        "response_times": [
+          0.20885467529296875,
+          0.1380443572998047,
+          0.1270771026611328
+        ],
+        "threshold_ms": 5000
+      }
+    },
+    {
+      "name": "parallel_processing",
+      "success": false,
+      "execution_time_ms": 0.5211830139160156,
+      "error_message": null,
+      "additional_info": {
+        "success_rate": 0.0,
+        "successful_retrievals": 0,
+        "total_symbols": 3,
+        "results": {
+          "7203": false,
+          "6758": false,
+          "9984": false
+        }
+      }
+    },
+    {
+      "name": "resource_usage",
+      "success": false,
+      "execution_time_ms": 0.011920928955078125,
+      "error_message": null,
+      "additional_info": {
+        "cache_hit_rate": 0.0,
+        "performance_stats": {
+          "requests_total": 9,
+          "requests_kabu": 0,
+          "requests_yahoo": 9,
+          "cache_hits": 0,
+          "errors": 0,
+          "avg_latency_ms": 0.17306539747450086,
+          "cache_stats": {
+            "size": 0,
+            "hits": 0,
+            "misses": 9,
+            "hit_rate": 0.0
+          },
+          "data_source_mode": "hybrid",
+          "kabu_integration_available": false,
+          "market_hours": false
+        }
+      }
+    },
+    {
+      "name": "security_levels",
+      "success": true,
+      "execution_time_ms": 0.09608268737792969,
+      "error_message": null,
+      "additional_info": {
+        "simulation_trading_disabled": true,
+        "simulation_only_mode": true,
+        "security_validation": true
+      }
+    },
+    {
+      "name": "trading_limits",
+      "success": true,
+      "execution_time_ms": 0.17595291137695312,
+      "error_message": null,
+      "additional_info": {
+        "limits_enforced": true,
+        "execution_success": false,
+        "warnings_count": 0,
+        "warnings": []
+      }
+    },
+    {
+      "name": "emergency_stop",
+      "success": true,
+      "execution_time_ms": 0.007867813110351562,
+      "error_message": null,
+      "additional_info": {
+        "emergency_stop_feature_available": true,
+        "emergency_stop_enabled": true,
+        "safety_status": {
+          "safety_level": "simulation",
+          "trading_enabled": false,
+          "simulation_only": true,
+          "real_trading_allowed": false,
+          "emergency_stop_enabled": true,
+          "authenticated": false,
+          "token_valid": false,
+          "market_hours": false
+        }
+      }
+    }
+  ]
+}

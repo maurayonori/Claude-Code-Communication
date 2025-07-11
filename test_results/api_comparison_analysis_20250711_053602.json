@@ -1,0 +1,157 @@
+{
+  "analysis_timestamp": "2025-07-11T05:36:02.534930",
+  "yahoo_api_analysis": {
+    "api_name": "Yahoo Finance",
+    "speed_score": 6.0,
+    "reliability_score": 7.0,
+    "data_quality_score": 8.0,
+    "use_cases": [
+      "バックテスト用履歴データ取得",
+      "シミュレーション用データ",
+      "長期間データ分析",
+      "開発・テスト環境"
+    ],
+    "limitations": [
+      "リアルタイム性に欠ける（15分遅延）",
+      "レート制限が厳しい（1秒間に2-3リクエスト）",
+      "分足データは直近30日のみ",
+      "正確な板情報取得不可"
+    ],
+    "recommendations": [
+      "バックテスト・シミュレーション専用として活用",
+      "履歴データ分析の主要データソース",
+      "kabu APIのフォールバック用途"
+    ]
+  },
+  "kabu_api_analysis": {
+    "api_name": "kabu STATION API",
+    "speed_score": 9.0,
+    "reliability_score": 8.5,
+    "data_quality_score": 9.5,
+    "use_cases": [
+      "リアルタイム取引実行",
+      "正確な板情報取得",
+      "リアルタイムデータ分析",
+      "デイトレード戦略",
+      "高頻度取引"
+    ],
+    "limitations": [
+      "kabuステーション起動が必要",
+      "接続設定が複雑（プロキシ等）",
+      "履歴データ取得に制限",
+      "障害時のフォールバック必要"
+    ],
+    "recommendations": [
+      "リアルタイム取引・分析の主力",
+      "正確な現在値・板情報取得",
+      "Yahoo APIとの組み合わせ使用"
+    ]
+  },
+  "hybrid_strategy": {
+    "strategy_name": "Yahoo-Kabu ハイブリッド戦略",
+    "data_source_mapping": {
+      "realtime_trading": "kabu_api",
+      "realtime_analysis": "kabu_api",
+      "historical_analysis": "yahoo_api",
+      "backtesting": "yahoo_api",
+      "simulation": "yahoo_api",
+      "fallback": "yahoo_api"
+    },
+    "switching_rules": {
+      "market_hours": {
+        "9:00-11:30": "kabu_api (優先) -> yahoo_api (フォールバック)",
+        "12:30-15:00": "kabu_api (優先) -> yahoo_api (フォールバック)",
+        "market_closed": "yahoo_api (履歴データ分析)"
+      },
+      "error_handling": {
+        "kabu_connection_error": "yahoo_api自動切替",
+        "kabu_rate_limit": "yahoo_api一時切替",
+        "yahoo_rate_limit": "キャッシュデータ使用"
+      }
+    },
+    "performance_optimization": {
+      "cache_strategy": "kabuリアルタイム + Yahoo履歴キャッシュ",
+      "request_batching": "Yahoo APIでバッチ処理",
+      "load_balancing": "用途別API使い分け"
+    }
+  },
+  "migration_priority": [
+    {
+      "component": "リアルタイム板情報取得",
+      "priority": "高",
+      "complexity": "中",
+      "benefit": "取引精度大幅向上",
+      "estimated_days": 3
+    },
+    {
+      "component": "注文実行機能",
+      "priority": "高",
+      "complexity": "高",
+      "benefit": "実取引可能",
+      "estimated_days": 5
+    },
+    {
+      "component": "エラー処理・フォールバック",
+      "priority": "高",
+      "complexity": "中",
+      "benefit": "システム安定性",
+      "estimated_days": 3
+    },
+    {
+      "component": "リアルタイム価格監視",
+      "priority": "中",
+      "complexity": "低",
+      "benefit": "応答性向上",
+      "estimated_days": 2
+    },
+    {
+      "component": "シミュレーション統合",
+      "priority": "低",
+      "complexity": "中",
+      "benefit": "テスト精度向上",
+      "estimated_days": 4
+    }
+  ],
+  "implementation_plan": {
+    "phase_1": {
+      "name": "基盤整備（3-5日）",
+      "tasks": [
+        "kabu API接続安定化",
+        "エラーハンドリング強化",
+        "基本的なデータ取得機能",
+        "Yahoo APIフォールバック機構"
+      ]
+    },
+    "phase_2": {
+      "name": "取引機能統合（5-7日）",
+      "tasks": [
+        "注文実行機能実装",
+        "リアルタイム板情報取得",
+        "ポジション管理統合",
+        "安全性チェック強化"
+      ]
+    },
+    "phase_3": {
+      "name": "最適化・検証（3-5日）",
+      "tasks": [
+        "性能最適化",
+        "総合テスト実施",
+        "本番環境検証",
+        "ドキュメント整備"
+      ]
+    },
+    "total_estimated_days": "11-17日",
+    "critical_dependencies": [
+      "kabuステーション安定稼働",
+      "ネットワーク設定完了",
+      "APIキー・認証情報"
+    ]
+  },
+  "key_insights": [
+    "kabu APIは取引・リアルタイム分析に最適",
+    "Yahoo APIは履歴・バックテストに適している",
+    "ハイブリッド戦略により両方の利点を活用",
+    "段階的移行により安全性確保",
+    "約2-3週間で完全統合可能"
+  ]
+}

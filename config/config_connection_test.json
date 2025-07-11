@@ -1,0 +1,15 @@
+{
+  "kabu_api": {
+    "enabled": true,
+    "safety_level": "simulation",
+    "api_password_env": "KABU_API_PASSWORD_TEST",
+    "base_url": "http://localhost:18080/kabusapi",
+    "timeout_seconds": 5,
+    "max_retry_attempts": 1,
+    "enable_real_trading": false,
+    "max_single_order_amount": 1000,
+    "max_daily_order_count": 1,
+    "emergency_stop_enabled": true,
+    "emergency_stop_file": "config/.emergency_stop_test"
+  }
+}

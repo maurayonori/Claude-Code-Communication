@@ -1,0 +1,76 @@
+{
+  "test_suite": "kabu_api_integration_basic",
+  "start_time": "2025-07-11T05:36:46.567758",
+  "end_time": "2025-07-11T05:36:46.567900",
+  "duration_seconds": 0.000142,
+  "total_tests": 5,
+  "successful_tests": 0,
+  "failed_tests": 5,
+  "success_rate": 0.0,
+  "test_details": {
+    "config_classes": {
+      "success": false,
+      "files_checked": [
+        "src/core/config.py",
+        "src/core/kabu_config.py"
+      ],
+      "files_exist": [
+        false,
+        false
+      ],
+      "all_exist": false
+    },
+    "api_client_classes": {
+      "success": false,
+      "files_checked": [
+        "src/kabu_api/client.py",
+        "src/kabu_api/models.py",
+        "src/kabu_api/exceptions.py"
+      ],
+      "files_exist": [
+        false,
+        false,
+        false
+      ],
+      "file_sizes": [
+        0,
+        0,
+        0
+      ],
+      "substantial_files": false
+    },
+    "integration_manager_classes": {
+      "success": false,
+      "files_checked": [
+        "src/integration/kabu_api_integration.py",
+        "src/integration/kabu_connection_manager.py"
+      ],
+      "files_exist": [
+        false,
+        false
+      ]
+    },
+    "data_provider_classes": {
+      "success": false,
+      "files_checked": [
+        "src/data/enhanced_hybrid_data_provider.py",
+        "src/data/market_data.py"
+      ],
+      "files_exist": [
+        false,
+        false
+      ]
+    },
+    "order_engine_classes": {
+      "success": false,
+      "files_checked": [
+        "src/trading/enhanced_order_execution_engine.py",
+        "src/trading/unified_system.py"
+      ],
+      "files_exist": [
+        false,
+        false
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "remote_connection": {
+    "windows_ip": "192.168.1.100",
+    "nginx_port": 8081,
+    "kabu_port": 18080
+  },
+  "network_settings": {
+    "timeout_seconds": 15,
+    "max_retry_attempts": 5,
+    "connection_check_interval": 60,
+    "network_scan_timeout": 2.0,
+    "default_ip_ranges": [
+      "192.168.1.{}",
+      "192.168.0.{}",
+      "10.0.0.{}"
+    ]
+  }
+}
